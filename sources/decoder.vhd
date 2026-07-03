@@ -152,7 +152,7 @@ begin
 		io_kk_en <= '0';
 		fetch <= '0';
 		store <= '0';
-		
+
 		if (reset_int_o = '0') then
 			case opCode_o is
 			when OP_JUMP_AAA => 
@@ -252,13 +252,13 @@ begin
 			if (inter_en = '1' and clk2 = '0') then
 				inter_block_regs <= '1';
 				inter_state_nxt <= inter_ack;
+				inter_j_o <= '1';
 			end if;
 		when inter_ack => 
 			instr_used <= (others => '0');
 			preserve_flags_o <= '1';
 			interrupt_ack <= '1';
 			inter_block_regs <= '1';
-			inter_j_o <= '1';
 			inter_state_nxt <= interrupting;
 		when interrupting => 
 			if (opCode_o = OP_RETURNI_ENABLE and clk2 = '1') then
