@@ -72,7 +72,7 @@ architecture Behavioral of reg_file is
 	end function;
 	
 	type reg_file_t is array (31 downto 0) of unsigned(7 downto 0);
-	signal reg 			: reg_file_t := (others=>(others=>'0'));
+	signal regf 			: reg_file_t := (others=>(others=>'0'));
 
 	type scratchpad_t is array(integer range <>) of unsigned(7 downto 0);
 	signal scratchpad	: scratchpad_t((scratch_pad_memory_size-1) downto 0) := (others=>(others=>'0')); 
@@ -97,13 +97,13 @@ begin
 	spm_addr		<= spm_addr_ss(spm_addr_width -1 downto 0) when spm_ss = '1' else reg1_buf(spm_addr_width -1 downto 0);
 	
 	spm_read		<= scratchpad(to_integer(spm_addr));
-	reg0_o			<= reg(to_integer(reg_select & reg_address(7 downto 4)));
-	reg1_o			<= reg(to_integer(reg_select & reg_address(3 downto 0)));
+	reg0_o			<= regf(to_integer(reg_select & reg_address(7 downto 4)));
+	reg1_o			<= regf(to_integer(reg_select & reg_address(3 downto 0)));
 	
 	write_reg : process (clk) begin
 		if rising_edge(clk) then
 			if (write_en = '1') then
-				reg(to_integer(reg_select & reg_address(7 downto 4))) <= reg_wr_data;
+				regf(to_integer(reg_select & reg_address(7 downto 4))) <= reg_wr_data;
 			end if;
 		end if;
 	end process write_reg;
